@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  Online Go Compiler
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+  <textarea name="codeContainer" id="codeContainer" rows="16" cols="50"></textarea>
+  <button type="button" id="runCode">Runnn</button>
+  <div class="">
+    Output
+  </div>
+
+  <script type="text/javascript">
+    $("#runCode").on("click", function(){
+      var bodyCont = $("#codeContainer").val();
+    $.ajax({
+      url:"http://localhost:3001/compileFile",
+      type: "POST",
+      data: {body:bodyCont},
+      success: function(response){
+        console.log("in success!  "+ response);
+      },
+      error: function(response){
+        console.log("in error:  " + response);
+      }
+    });
+    });
+  </script>
+</body>
+</html>
