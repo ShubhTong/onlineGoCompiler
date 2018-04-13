@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>
-  Online Go Compiler
+<head>  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
 </head>
-<body>
-  <textarea name="codeContainer" id="codeContainer" rows="16" cols="50"></textarea>
-  <button type="button" id="runCode">Runnn</button>
-  <div class="">
-    Output
+<body style="    font-size: 18px; font-family: monospace;">
+  <div style="height: 18px; padding: 15px; background-color: blue; padding-left: 3px;">Online Go Compiler</div>
+  <div style="margin-top: 10px;">
+      <textarea placeholder="Write Go Code..." name="codeContainer" id="codeContainer" rows="26" cols="150" style="background-color: lightgoldenrodyellow;"></textarea>
+    </div>
+  
+  <div style="margin: 10px; margin-left: 1px;">
+    <button type="button" id="runCode" style="width: 55px; height: 30px; background-color: blue; font-size: inherit; font-weight: 800; color: white;">Run</button>
+  </div>
+  
+
+  <div>
+<textarea readonly class="output" rows="8" cols="150" placeholder="Output..." style="background-color: lightgoldenrodyellow;"></textarea>
   </div>
 
   <script type="text/javascript">
     $("#runCode").on("click", function(){
       var bodyCont = $("#codeContainer").val();
+      
     $.ajax({
-      url:"http://localhost:3001/compileFile",
+      url:"http://localhost:3002/compileFile",
       type: "POST",
-      data: {body:bodyCont},
+      async: false,
+      data: {"formData":bodyCont},
       success: function(response){
-        console.log("in success!  "+ response);
+      $(".output").html(response);
       },
       error: function(response){
         console.log("in error:  " + response);
