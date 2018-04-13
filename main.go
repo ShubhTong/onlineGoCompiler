@@ -11,10 +11,8 @@ import (
 	"strings"
 )
 
-func ca(w http.ResponseWriter, r *http.Request) {
+func compileFile(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	log.Println("im in")
-
 	path := "test.go"
 	_, errFileExist := os.Stat(path)
 	if os.IsNotExist(errFileExist) {
@@ -34,21 +32,15 @@ func ca(w http.ResponseWriter, r *http.Request) {
 	cmd.Stderr = &stderr
 	err := cmd.Run()
 	if err != nil {
-		//	log.Fatal(err)
-		fmt.Println(fmt.Sprint(err) + ":: " + stderr.String())
 		w.Write([]byte(stderr.String()))
 	} else {
 		w.Write([]byte(out.String()))
 	}
-
-	fmt.Printf("in all caps: %q\n", out.String())
-
 	os.Remove(path)
-
 }
 
 func main() {
-	http.HandleFunc("/compileFile", ca)
+	http.HandleFunc("/compileFile", compileFile)
 	http.Handle("/", http.FileServer(http.Dir("templates")))
 
 	log.Println("Listening....")
